@@ -42,10 +42,21 @@ let valueY = 0;
 
 // Stop Timer, Process Results, go to Score Page
 function checkTime() {
-  console.log('time played: ', timePlayed);
+  console.log('time played:', timePlayed);
   if (playerGuessArray.length == questionAmount) {
-    console.log('player guess array: ', playerGuessArray);
+    console.log('player guess array:', playerGuessArray);
     clearInterval(timer);
+    // Check for wrong guesses, add penalty time
+    equationsArray.forEach((equation, index) => {
+      if (equation.evaluated === playerGuessArray[index]) {
+        // Correct Guess, No Penalty
+      } else {
+        // Incorrect Guess, Add Penalty
+        penaltyTime += 0.5;
+      }
+    });
+    finalTime = timePlayed + penaltyTime;
+    console.log('time:', timePlayed, 'penalty:', penaltyTime, 'final time:', finalTime);
   }
 }
 
@@ -89,10 +100,10 @@ function getRandomInt(max) {
 function createEquations() {
   // Randomly choose how many correct equations there should be
   const correctEquations = getRandomInt(questionAmount);
-  console.log('correct equations: ', correctEquations);
+  console.log('correct equations:', correctEquations);
   // Set amount of wrong equations
   const wrongEquations = questionAmount - correctEquations;
-  console.log('wrong equations: ', wrongEquations);
+  console.log('wrong equations:', wrongEquations);
   // Loop through, multiply random numbers up to 9, push to array
   for (let i = 0; i < correctEquations; i++) {
     firstNumber = getRandomInt(9);
@@ -194,7 +205,7 @@ function getRadioValue() {
 function selectQuestionAmount(e) {
   e.preventDefault();     // Prevents the page from resetting when the form is submitted
   questionAmount = getRadioValue();
-  console.log('question amount: ', questionAmount);
+  console.log('question amount:', questionAmount);
   if (questionAmount) {     // Prevents the user from pressing submit button without a value
     showCountdown();
   }
