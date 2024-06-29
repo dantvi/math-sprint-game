@@ -73,8 +73,8 @@
             <div class="item-container"></div>
             <!-- Right/Wrong Button -->
             <div class="item-footer">
-                <button class="wrong">Wrong</button>
-                <button class="right">Right</button>
+                <button class="wrong" onclick="select(false)">Wrong</button>
+                <button class="right" onclick="select(true)">Right</button>
             </div>
         </div>
 
@@ -83,13 +83,13 @@
             <!-- Score Container -->
             <div class="score-container">
                 <div class="title">Your Time</div>
-                <div class="final-time">3.4s</div>
-                <div class="base-time">Base Time: 2.4s</div>
-                <div class="penalty-time">Penalty: +1.0s</div>
+                <div class="final-time"></div>
+                <div class="base-time"></div>
+                <div class="penalty-time"></div>
             </div>
             <!-- Play Again Button -->
             <div class="score-footer">
-                <button class="play-again">Play Again</button>
+                <button class="play-again" onclick="playAgain()" hidden>Play Again</button>
             </div>
         </div>
 
