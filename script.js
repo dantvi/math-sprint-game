@@ -121,9 +121,7 @@ function scoresToDOM() {
 
 // Stop Timer, Process Results, go to Score Page
 function checkTime() {
-  console.log('time played:', timePlayed);
   if (playerGuessArray.length == questionAmount) {
-    console.log('player guess array:', playerGuessArray);
     clearInterval(timer);
     // Check for wrong guesses, add penalty time
     equationsArray.forEach((equation, index) => {
@@ -135,7 +133,6 @@ function checkTime() {
       }
     });
     finalTime = timePlayed + penaltyTime;
-    console.log('time:', timePlayed, 'penalty:', penaltyTime, 'final time:', finalTime);
     scoresToDOM();
   }
 }
@@ -180,10 +177,8 @@ function getRandomInt(max) {
 function createEquations() {
   // Randomly choose how many correct equations there should be
   const correctEquations = getRandomInt(questionAmount);
-  console.log('correct equations:', correctEquations);
   // Set amount of wrong equations
   const wrongEquations = questionAmount - correctEquations;
-  console.log('wrong equations:', wrongEquations);
   // Loop through, multiply random numbers up to 9, push to array
   for (let i = 0; i < correctEquations; i++) {
     firstNumber = getRandomInt(9);
@@ -249,25 +244,27 @@ function populateGamePage() {
 
 // Displays 3, 2, 1, GO!
 function countdownStart() {
-  countdown.textContent = '3';
-  setTimeout(() => {
-    countdown.textContent = '2';
-  }, 1000);     // Value in milliseconds that the program waits
-  setTimeout(() => {
-    countdown.textContent = '1';
-  }, 2000);
-  setTimeout(() => {
-    countdown.textContent = 'GO!';
-  }, 3000);
+  let count = 3;
+  countdown.textContent = 3;
+  const timeCountdown = setInterval(() => {
+    count--;
+    if (count === 0) {
+      countdown.textContent = 'GO!';
+    } else if (count === -1) {
+      showGamePage();
+      clearInterval(timeCountdown);
+    } else {
+      countdown.textContent = count;
+    }
+  }, 1000);
 }
 
 // Navigate from Splash Page to Countdown Page
 function showCountdown() {
   countdownPage.hidden = false;
   splashPage.hidden = true;
-  countdownStart();
   populateGamePage();
-  setTimeout(showGamePage, 4000);
+  countdownStart();
 }
 
 // Get the value from selected radio button
@@ -285,7 +282,6 @@ function getRadioValue() {
 function selectQuestionAmount(e) {
   e.preventDefault();     // Prevents the page from resetting when the form is submitted
   questionAmount = getRadioValue();
-  console.log('question amount:', questionAmount);
   if (questionAmount) {     // Prevents the user from pressing submit button without a value
     showCountdown();
   }
